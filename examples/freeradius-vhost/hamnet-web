@@ -1,0 +1,64 @@
+#  Server for Hamnet Web authentication
+
+server hamnet-web {
+
+listen {
+	type = auth
+	ipaddr = *
+	port = 1814
+
+	limit {
+	      max_connections = 16
+	      lifetime = 0
+	      idle_timeout = 30
+	}
+}
+
+#  Authorization. Dynamically generates the APRS-IS passcode, then
+#  performs password comparison.
+
+authorize {
+	# Grab APRS/IS password
+	python
+
+	# 
+	chap
+	pap
+}
+
+
+#  Authentication.
+authenticate {
+	Auth-Type PAP {
+		pap
+	}
+
+	Auth-Type CHAP {
+		chap
+	}
+}
+
+
+#  Session database, used for checking Simultaneous-Use.
+session {
+}
+
+
+#  Post-Authentication
+post-auth {
+	# For Exec-Program and Exec-Program-Wait
+	exec
+
+	#  Access-Reject packets are sent through the REJECT sub-section of the
+	#  post-auth section.
+	Post-Auth-Type REJECT {
+		attr_filter.access_reject
+	}
+}
+
+pre-proxy {
+}
+
+post-proxy {
+}
+}
