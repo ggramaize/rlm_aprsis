@@ -5,7 +5,7 @@ This module has been built to enable dynamic APRS-IS passcode generation on free
 
 It's used to build a Wi-Fi network architecture similar to [Eduroam](https://www.eduroam.org), for ham radio operators, leveraging the existing APRS-IS passcode authentication. 
 
-##Installing using rlm_python
+## Installing for rlm_python
 
 To use `rlm_aprsis` with the `rlm_python` module, copy `aprsis.py` in `/etc/freeradius/3.0/mods-config/python`, and edit `/etc/freeradius/3.0/mods-available/python` as follow:
 
