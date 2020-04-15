@@ -1,11 +1,13 @@
 # rlm_aprsis
-Freeradius python module for dynamic APRS-IS Passcode generation
+Freeradius module for dynamic APRS-IS Passcode generation
 
-This python module has been built to enable dynamic APRS-IS passcode generation on freeradius 3.0.11 (and higher). 
+This module has been built to enable dynamic APRS-IS passcode generation on freeradius 3.0.11 (and higher). 
 
 It's used to build a Wi-Fi network architecture similar to [Eduroam](https://www.eduroam.org), for ham radio operators, leveraging the existing APRS-IS passcode authentication. 
 
-To use `rlm_aprsis`, copy `aprsis.py` in `/etc/freeradius/3.0/mods-config/python`, and edit `/etc/freeradius/3.0/mods-available/python` as follow:
+##Installing using rlm_python
+
+To use `rlm_aprsis` with the `rlm_python` module, copy `aprsis.py` in `/etc/freeradius/3.0/mods-config/python`, and edit `/etc/freeradius/3.0/mods-available/python` as follow:
 
 ```
 python {
@@ -38,5 +40,22 @@ Edit your site configuration file. In the `authorize` section, add `python` afte
 
 You should edit your configuration appropriately to enable PEAP-MSCHAPv2.  
 
-A more complete configuration guide will be shipped here later (when it's done).
+## Installing for rlm_perl
+
+To use `rlm_aprsis` with the `rlm_perl` module, copy `aprsis.pl` in `/etc/freeradius/3.0/mods-config/perl`, and edit `/etc/freeradius/3.0/mods-available/perl` as follow:
+
+```
+perl {
+	filename = ${modconfdir}/${.:instance}/aprsis.pl
+
+	func_authenticate = authenticate
+	func_authorize = authorize
+	func_detach = detach
+}
+```
+Create a soft link of the aforementioned file in `/etc/freeradius/3.0/mods-enabled`.
+
+Edit your site configuration file. In the `authorize` section, add `perl` after `preprocess`, but before `chap`, `mschap`, and `pap`.
+
+You should edit your configuration appropriately to enable PEAP-MSCHAPv2.  
 
