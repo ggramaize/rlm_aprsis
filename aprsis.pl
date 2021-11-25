@@ -61,7 +61,8 @@ sub aprsis_hash {
 # Function to handle authorize
 sub authorize {
 	my $userName = $RAD_REQUEST{'User-Name'};
-	
+	my $cspotConfig = $RAD_REQUEST{'ChilliSpot-Config'}
+
 	if( $userName eq '' )
 	{
 		return RLM_MODULE_NOOP;
@@ -71,6 +72,12 @@ sub authorize {
 	&radiusd::radlog( L_DBG, 'Cleartext-Password: ' . aprsis_hash($userName));
 
 	$RAD_CHECK{'Cleartext-Password'} = "" . aprsis_hash($userName);
+
+	if( $cspotConfig eq 'allow-wpa-guests' )
+	{
+		&radiusd::radlog( L_DBG, 'Detected ChilliSpot presence, inserting TLV to require UAM authentication.');
+		$RAD_REPLY{'ChilliSpot-Config'} = "require-uam-auth";
+	}
 
 	return RLM_MODULE_UPDATED;
 }

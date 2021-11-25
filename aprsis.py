@@ -46,10 +46,13 @@ def authenticate(p):
 def authorize(authData):
     # Extract the data we need.
     userName = None
-    
+    isCSpot = False
+
     for t in authData:
         if t[0] == 'User-Name':
             userName = t[1]
+        if t[0] == 'ChilliSpot-Config' and t[1] == 'allow-wpa-guests'
+            isCSpot = True
 
     # Don't do anything if user-name not found
     if userName is None:
@@ -60,5 +63,9 @@ def authorize(authData):
 
     config = ( ('Cleartext-Password', ':=', str(aprsis_hash(userName)) ), )
 
-    return (radiusd.RLM_MODULE_UPDATED, (), config )
+    if( isCSpot == True ):
+        log(radiusd.L_DBG, 'Detected ChilliSpot presence, inserting TLV to require UAM authentication.')
+        reply = ( ( 'ChilliSpot-Config', 'require-uam-auth'), )
+
+    return (radiusd.RLM_MODULE_UPDATED, reply, config )
 
