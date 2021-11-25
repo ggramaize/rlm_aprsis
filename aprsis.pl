@@ -61,7 +61,7 @@ sub aprsis_hash {
 # Function to handle authorize
 sub authorize {
 	my $userName = $RAD_REQUEST{'User-Name'};
-	my $cspotConfig = $RAD_REQUEST{'ChilliSpot-Config'}
+	my $cspotConfig = $RAD_REQUEST{'ChilliSpot-Config'};
 
 	if( $userName eq '' )
 	{
