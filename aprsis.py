@@ -47,6 +47,7 @@ def authorize(authData):
     # Extract the data we need.
     userName = None
     isCSpot = False
+    reply = ()
 
     for t in authData:
         if t[0] == 'User-Name':
@@ -65,7 +66,7 @@ def authorize(authData):
 
     if( isCSpot == True ):
         log(radiusd.L_DBG, 'Detected ChilliSpot presence, inserting TLV to require UAM authentication.')
-        reply = ( ( 'ChilliSpot-Config', 'require-uam-auth'), )
+        reply = reply + ( ( 'ChilliSpot-Config', 'require-uam-auth'), )
 
     return (radiusd.RLM_MODULE_UPDATED, reply, config )
 
