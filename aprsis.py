@@ -52,7 +52,7 @@ def authorize(authData):
     for t in authData:
         if t[0] == 'User-Name':
             userName = t[1]
-        if t[0] == 'ChilliSpot-Config' and t[1] == 'allow-wpa-guests'
+        if t[0] == 'ChilliSpot-Config' and t[1] == 'allow-wpa-guests':
             isCSpot = True
 
     # Don't do anything if user-name not found
